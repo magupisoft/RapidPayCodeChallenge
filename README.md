@@ -27,8 +27,9 @@ There are 2 ways to generate the database:
  - JWT Authentication
  - FluentValidation
  - Swagger
- - 
-**Design Pattern**
+   
+**Design Patterns**
+ - N-Layered Architecture
  - Async/Await
  - Repository
  - Dependency Injection

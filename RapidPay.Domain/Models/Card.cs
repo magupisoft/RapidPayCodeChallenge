@@ -2,7 +2,6 @@
 
 public class Card : BaseEntity
 {
-
     public Card() => Transactions = [];
 
     public required string Number { get; set; }

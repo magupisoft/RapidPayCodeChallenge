@@ -17,6 +17,5 @@ public class PaymentValidator : AbstractValidator<DoPaymentRequest>
         
         RuleFor(request => request.Amount)
           .Must(x => x > 0).WithMessage("Amount must be greater than zero");
-
     }
 }

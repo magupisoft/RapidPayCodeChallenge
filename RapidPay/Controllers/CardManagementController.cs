@@ -1,8 +1,6 @@
 ﻿using System.Net.Mime;
-using System.Text;
-using Azure.Core;
 using FluentValidation;
-using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RapidPay.CardManagement;
 using RapidPay.Domain.Requests;
@@ -10,6 +8,7 @@ using RapidPay.Domain.Responses;
 
 namespace RapidPay.Controllers;
 
+[Authorize]
 [Produces(MediaTypeNames.Application.Json)]
 [Route("api/[controller]")]
 [ApiController]
@@ -18,7 +17,7 @@ public class CardManagementController(
     IValidator<CreateCardRequest> createCardValidator,
     IValidator<DoPaymentRequest> paymentValidator,
     IValidator<string> cardValidator,
-    ILogger<CardManagementController> logger) : ControllerBase
+    ILogger<CardManagementController> logger) : BaseController
 {
     /// <summary>
     /// POST: Create new Card
@@ -29,6 +28,7 @@ public class CardManagementController(
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CreateCardResponse>> CreatesCardAsync(CreateCardRequest request)
     {
         var validationResult = await createCardValidator.ValidateAsync(request);
@@ -59,6 +59,7 @@ public class CardManagementController(
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CardPaymentResponse>> PaymentAsync(
         [FromBody] DoPaymentRequest request
     )
@@ -97,6 +98,7 @@ public class CardManagementController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CardBalanceResponse>> GetsCardBalance([FromRoute] string cardNumber)
     {
         var validationResult = await cardValidator.ValidateAsync(cardNumber);
@@ -123,13 +125,4 @@ public class CardManagementController(
         }
     }
 
-    private static List<string> GetValidationErrors(ValidationResult validationResult)
-    {
-        var message = new List<string>();
-        foreach (var failure in validationResult.Errors)
-        {
-            message.Add(failure.ErrorMessage);
-        }
-        return message;
-    }
 }

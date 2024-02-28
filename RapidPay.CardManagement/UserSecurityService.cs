@@ -11,8 +11,7 @@ namespace RapidPay.CardManagement
 {
     public class UserSecurityService(
     IAccountRepository accountRepository,
-    IConfiguration configuration,
-    ILogger<UserSecurityService> logger) : IUserSecurityService
+    IConfiguration configuration) : IUserSecurityService
     {
         public async Task<(string?, DateTime?)> GetAccessToken(UserLoginRequest request)
         {
@@ -26,7 +25,7 @@ namespace RapidPay.CardManagement
             {
                 var issuer = configuration["Jwt:Issuer"];
                 var audience = configuration["Jwt:Audience"];
-                var duration = int.Parse(configuration["Jwt:DurationInMinutes"]);
+                _ = int.TryParse(configuration["Jwt:DurationInMinutes"], out int duration);
                 var key = Encoding.ASCII.GetBytes
                 (configuration["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor

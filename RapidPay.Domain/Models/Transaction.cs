@@ -2,9 +2,6 @@
 
 public class Transaction : BaseEntity
 {
-    public Guid TransactionId { get; set; }
-
-
     public decimal Amount { get; set; }
 
     public decimal PaymentFee { get; set; }

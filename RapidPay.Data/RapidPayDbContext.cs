@@ -74,10 +74,10 @@ public class RapidPayDbContext(DbContextOptions<RapidPayDbContext> options) : Db
             .HasComputedColumnSql("getutcdate()");
 
         modelBuilder.Entity<Account>()
-           .HasOne(k => k.Card)
-           .WithOne(k => k.Account)
-           .HasForeignKey<Card>(k => k.AccountId)
-           .IsRequired(false);
+          .HasMany(k => k.Cards)
+          .WithOne(k => k.Account)
+          .HasForeignKey(k => k.AccountId)
+          .HasPrincipalKey(k => k.Id);
 
         modelBuilder.Entity<Card>()
           .HasMany(k => k.Transactions)

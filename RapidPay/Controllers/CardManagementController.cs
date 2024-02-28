@@ -25,7 +25,7 @@ public class CardManagementController(
     /// </summary>
     /// <param name="request">CreateCardRequest</param>
     /// <returns>Created Card Number</returns>
-    [HttpPost("new-card")]
+    [HttpPost("card/create")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -34,8 +34,7 @@ public class CardManagementController(
         var validationResult = await createCardValidator.ValidateAsync(request);
         if (!validationResult.IsValid)
         {
-            StringBuilder message = GetValidationErrors(validationResult);
-            return BadRequest(message.ToString());
+            return BadRequest(GetValidationErrors(validationResult));
         }
 
         try
@@ -67,9 +66,7 @@ public class CardManagementController(
         var validationResult = await paymentValidator.ValidateAsync(request);
         if (!validationResult.IsValid)
         {
-            StringBuilder message = GetValidationErrors(validationResult);
-
-            return BadRequest(message.ToString());
+            return BadRequest(GetValidationErrors(validationResult));
         }
 
         CardPaymentResponse response;
@@ -105,8 +102,7 @@ public class CardManagementController(
         var validationResult = await cardValidator.ValidateAsync(cardNumber);
         if (!validationResult.IsValid)
         {
-            StringBuilder message = GetValidationErrors(validationResult);
-            return BadRequest(message.ToString());
+            return BadRequest(GetValidationErrors(validationResult));
         }
 
         try
@@ -127,12 +123,12 @@ public class CardManagementController(
         }
     }
 
-    private static StringBuilder GetValidationErrors(ValidationResult validationResult)
+    private static List<string> GetValidationErrors(ValidationResult validationResult)
     {
-        var message = new StringBuilder();
+        var message = new List<string>();
         foreach (var failure in validationResult.Errors)
         {
-            message.AppendLine(failure.ErrorMessage).Append(". ");
+            message.Add(failure.ErrorMessage);
         }
         return message;
     }

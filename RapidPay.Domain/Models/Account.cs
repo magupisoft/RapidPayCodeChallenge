@@ -16,7 +16,5 @@ public class Account : BaseEntity
 
     public DateTime CardHolderSince { get; set; }
 
-    public Guid? CardId { get; set; }
-
-    public virtual Card? Card { get; set; } = null!;
+    public virtual ICollection<Card> Cards { get; set; } = null!;
 }

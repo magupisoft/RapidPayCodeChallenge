@@ -1,5 +1,3 @@
-
-
 # RapidPay REST Api
 
 **Intructions:**
@@ -9,6 +7,33 @@ There are 2 ways to generate the database:
 2. Running EF Core command for executing migrations:
  
 	 `dotnet ef database update`
+
+**Modules**
+ - Card Management
+ - Payment Fees 
+ 
+ **Endpoints**
+ - Create card:  `POST /api/CardManagement/card/create`
+ - Pay: `PUT /api/CardManagement/card/payment`
+ - Get card balance: `GET /api/CardManagement/card/{cardNumber}/balance`
+ - Get Access Token: `GET /api/Security/access-token`
+ 
+ 
+**Stack**
+ - NET 8
+ - Sql Server
+ - EntityFrameworkCore 8 Code First Approach
+ - EF Core Migrations
+ - JWT Authentication
+ - FluentValidation
+ - Swagger
+ - 
+**Design Pattern**
+ - Async/Await
+ - Repository
+ - Dependency Injection
+ - Singleton
+
 
 **Authentication**
 

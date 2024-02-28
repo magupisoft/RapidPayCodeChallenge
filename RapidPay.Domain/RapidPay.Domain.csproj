@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RapidPay.Data\RapidPay.Data.csproj" />
-    <ProjectReference Include="..\RapidPay.Domain\RapidPay.Domain.csproj" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 
 </Project>
